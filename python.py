@@ -5,11 +5,52 @@ import random
 import sqlite3
 import datetime
 from PIL import Image
+
 # from paramiko import SSHClient
 from twisted.protocols.ftp import FTPFactory, FTPRealm
 from twisted.cred.portal import Portal
 from twisted.internet import reactor
 import socket
+
+
+class Photoshop:
+    @staticmethod
+    def resize(image_path, percent):
+        image = Image.open(image_path)
+        new_width = image.width * percent / 100  # change by %
+        new_height = image.height * percent / 100
+
+
+class Kindle:
+    @staticmethod
+    def highlightsToRoam(file):
+
+        # read the content into memory
+        org_file = open(file, "r")
+        content = org_file.readlines()
+        org_file.close()
+
+        # remove carriage returns '^M'
+        for line in content:
+            line = line.replace("\r", "")
+
+        # remove =======
+        for line in content:
+            line = line.replace("==========", "")
+
+        # print out content for debugging purposes
+        for line in content:
+            print(line)
+
+        # write fixed content back
+        # org_file = open(file, "w")
+        # org_file.write(str(content))
+        # org_file.close()
+
+    @staticmethod
+    def createLinkFilewise(file, link):
+        pass
+
 
 class Bash:
     """Linux Shell Commands in Python"""
