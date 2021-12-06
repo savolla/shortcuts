@@ -13,12 +13,74 @@ from twisted.internet import reactor
 import socket
 
 
+class NumberWizard:
+    """because I'm not g00d @ math."""
+
+    @staticmethod
+    def percentage(number, percent):
+        return float(number) * float(percent) / 10 ** 2  # yoooo!
+
+
+class TextWizard:
+    """apply massage on strings using coconut oil"""
+
+    @staticmethod
+    def reverseString(string):
+        """returns reversed string"""
+        return string[::-1]
+
+    @staticmethod
+    def getFileExtension(file_name):
+        """returns file extension of a given file if it exists"""
+        if file_name in os.listdir():
+            return file_name[::-1].split(".")[0][::-1]  # lol
+
+    # TODO: continue from this function when you come back
+    @staticmethod
+    def replaceFileExtension(file_path, new_extension):
+        tmp = file_path[::-1].split(".")
+        extension = TextWizard.reverseString(new_extension)
+        tmp[0] = extension
+        tmp[0] = tmp[0] + "." + tmp[1]
+        del tmp[1]
+        tmp = TextWizard.reverseString(tmp)
+
+
 class Photoshop:
     @staticmethod
-    def resize(image_path, percent):
+    def resize(image_path: str, percent: int):
+        """give numbers less than 100 to make smaller and bigger numbers to make it bigger"""
+
         image = Image.open(image_path)
-        new_width = image.width * percent / 100  # change by %
-        new_height = image.height * percent / 100
+        new_image_width = int(NumberWizard.percentage(image.width, percent))
+        new_image_height = int(NumberWizard.percentage(image.height, percent))
+        image = image.resize((new_image_width, new_image_height), Image.ANTIALIAS)
+        image.save(image_path)
+
+    @staticmethod
+    def convertPng2Jpg(image_path: str):
+        if TextWizard.getFileExtension(image_path) == "png":
+            image = Image.open(image_path)
+            rgb_image = image.convert("RGB")
+            rgb_image.save(image_path)
+
+    @staticmethod
+    def convertJpg2Png(image_path):
+        if TextWizard.getFileExtension(image_path) == "jpg":
+            image = Image.open(image_path)
+            image.save(image_path)
+
+    @staticmethod
+    def bulkConvertPng2Jpg(directory_path):
+        """convert all PNG images inside a directory to JPG"""
+        for image in os.listdir(directory_path):
+            Photoshop.convertPng2Jpg(image)
+
+    @staticmethod
+    def bulkConvertJpg2Png(directory_path):
+        """convert all JPG images inside a directory to PNG"""
+        for image in os.listdir(directory_path):
+            Photoshop.convertJpg2Png(image)
 
 
 class Kindle:
@@ -164,6 +226,17 @@ class Container:
     def stringToList(string):
         """parse words from a string and convert to a list"""
         return string.split(" ")
+
+    @staticmethod
+    def listToString(list_of_strings: list):
+        """unite all strings inside a list into one string"""
+        first_element = list_of_strings[0]
+        if type(first_element) == str:
+            whole_string = ""
+            for string in list_of_strings:
+                whole_string += string + " "
+
+            return whole_string
 
 
 class Random:
